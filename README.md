@@ -1,5 +1,8 @@
-# 🎹 KeyboardApp - Generador de GIFs de Secuencias de Teclado
+# KeyboardApp - Generador de GIFs de Secuencias de Teclado
 Una aplicación web interactiva que permite crear GIFs animados de secuencias de teclas presionadas en un teclado virtual.
+
+![KeyBoardapp](https://github.com/user-attachments/assets/a3ad1395-932d-4924-b234-bdc0f170e06b)
+
 
 ------------
 

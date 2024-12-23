@@ -45,8 +45,8 @@ function App() {
 
     try {
       const frames = []
-      const frameDelay = 0.7 // Velocidad ajustada
-      const framesPerKey = 8 // Menos frames para mejor rendimiento
+      const frameDelay = 0.5 // Velocidad ajustada
+      const framesPerKey = 9 // Menos frames para mejor rendimiento
       const transitionFrames = 3 // Frames de transición
 
       // Opciones mejoradas para html2canvas
@@ -79,12 +79,12 @@ function App() {
         // Captura el frame principal
         const canvas = await html2canvas(previewRef.current, html2canvasOptions)
         
-        // Añade frames principales y de transición
+        // frames principales y de transición
         for (let f = 0; f < framesPerKey; f++) {
           frames.push(canvas.toDataURL('image/png'))
         }
 
-        // Añade frames de transición si no es el último
+        // frames de transición si no es el último
         if (i < sequence.length - 1) {
           for (let t = 0; t < transitionFrames; t++) {
             frames.push(canvas.toDataURL('image/png'))
@@ -97,7 +97,7 @@ function App() {
       await new Promise(resolve => setTimeout(resolve, 50))
       const finalCanvas = await html2canvas(previewRef.current, html2canvasOptions)
       
-      // Añade más frames finales para que se vea mejor el resultado
+      // más frames finales para que se vea mejor el resultado
       for (let i = 0; i < framesPerKey * 2; i++) {
         frames.push(finalCanvas.toDataURL('image/png'))
       }
@@ -129,7 +129,7 @@ function App() {
       setTimeout(() => {
         setIsGenerating(false)
         setProgress(0)
-        setActiveIndex(sequence.length) // Mantén el último estado visible
+        setActiveIndex(sequence.length)
       }, 1000)
     }
   }
@@ -221,30 +221,20 @@ function App() {
 
         {/* Keyboard Preview */}
         <div className="flex justify-center items-center w-full">
-          <div 
-            ref={previewRef} 
-            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden
-              transition-all duration-300 hover:shadow-md"
-            style={{
-              width: `${fixedSize.width}px`,
-              height: `${fixedSize.height}px`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ 
-              width: '100%', 
-              height: '100%',
-              padding: '20px',
-              boxSizing: 'border-box'
-            }}>
+        <div 
+              ref={previewRef} 
+              className="bg-white"
+              style={{
+                width: `${fixedSize.width}px`,
+                height: `${fixedSize.height}px`,
+                overflow: 'hidden'
+              }}
+            >
               <KeyboardSequence 
                 sequence={sequence} 
                 activeIndex={activeIndex}
                 onKeyClick={handleKeyClick}
               />
-            </div>
           </div>
         </div>
 
