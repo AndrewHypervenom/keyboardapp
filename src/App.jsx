@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Download, Trash2, History, Loader2 } from 'lucide-react'
 import KeyboardSequence from './components/KeyboardSequence'
 import gifshot from 'gifshot'
@@ -9,9 +9,18 @@ function App() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
   const previewRef = useRef(null)
 
-  // Tamaño fijo optimizado para mejor calidad
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const fixedSize = {
     width: 1000,
     height: 400
@@ -136,6 +145,36 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {isMobile && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md text-center border border-gray-100">
+            <p className="text-gray-700 mb-6 font-medium text-lg">
+              No se puede acceder desde este dispositivo. Para disfrutar de toda la experiencia es mejor ir a desktop.
+            </p>
+            <p className="text-gray-500 mb-6 font-medium">
+              -AndrewHypervenom
+            </p>
+            <div className="flex justify-center space-x-6">
+              <a 
+                href="https://www.linkedin.com/in/andresfelipefajardopachon/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                LinkedIn
+              </a>
+              <a 
+                href="https://github.com/AndrewHypervenom"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <header className="w-full px-6 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
